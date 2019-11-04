@@ -1,0 +1,40 @@
+﻿@model OnlineSearch.Model.SearchModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <p class="lead">Please enter a keyword and a URL. This app will search the keyword in Google and return the indexes of the search results that match the provided URL</p>
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KeyWords)
+            @Html.TextBoxFor(model => model.KeyWords, new { @class = "form-control" })
+            @Html.ValidationMessageFor(modle => Model.KeyWords, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Url)
+            @Html.TextBoxFor(model => model.Url, new { @class = "form-control" })
+            @Html.ValidationMessageFor(modle => Model.Url, "", new { @class = "text-danger" })
+        </div>
+
+        <button class="btn btn-primary" type="submit">Search</button>
+
+        if (Model.SearchResult != null)
+        {
+            if (Model.SearchResult.Count() > 0)
+            {
+                <p>result: @string.Join(", ", Model.SearchResult)</p>
+            }
+            else
+            {
+                <p>No result found</p>
+            }
+        }
+    }
+</div>
